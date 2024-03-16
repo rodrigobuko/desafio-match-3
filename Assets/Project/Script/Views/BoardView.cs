@@ -13,6 +13,7 @@ namespace Gazeus.DesafioMatch3.Views
         public event Action<int, int> TileClicked;
 
         [SerializeField] private GridLayoutGroup _boardContainer;
+        [SerializeField] private RectTransform _boardContainerRect;
         [SerializeField] private TilePrefabRepository _tilePrefabRepository;
         [SerializeField] private TileSpotView _tileSpotPrefab;
 
@@ -50,6 +51,8 @@ namespace Gazeus.DesafioMatch3.Views
                     }
                 }
             }
+            
+            _boardContainer.cellSize = new Vector2(_boardContainerRect.rect.width / board[0].Count, _boardContainerRect.rect.height / board.Count);
         }
 
         public Tween CreateTile(List<AddedTileInfo> addedTiles)
