@@ -22,7 +22,7 @@ namespace Gazeus.DesafioMatch3.Controllers
         #region Unity
         private void Awake()
         {
-            _gameEngine = new GameService();
+            _gameEngine = new GameService(new BoardIterator());
             _boardView.TileClicked += OnTileClick;
         }
 
@@ -33,8 +33,8 @@ namespace Gazeus.DesafioMatch3.Controllers
 
         private void Start()
         {
-            List<List<Tile>> board = _gameEngine.StartGame(_boardWidth, _boardHeight);
-            _boardView.CreateBoard(board);
+            Board board = _gameEngine.StartGame(_boardWidth, _boardHeight);
+            _boardView.CreateBoard(board.GetBoardTiles());
         }
         #endregion
 
