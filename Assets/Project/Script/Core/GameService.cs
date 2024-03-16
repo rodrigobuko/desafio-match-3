@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using Gazeus.DesafioMatch3.Models;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace Gazeus.DesafioMatch3.Core
 {
     public interface IGameService {
         Board StartGame(int boardWidth, int boardHeight);
-        List<BoardSequence> SwapTile(int fromX, int fromY, int toX, int toY);
+        GameSequence SwapTile(int fromX, int fromY, int toX, int toY);
         bool IsValidMovement(int fromX, int fromY, int toX, int toY);
     }
     public class GameService: IGameService
     {
+        private int _gameScore;
         private IBoardIterator _boardIterator;
 
         public GameService(IBoardIterator boardIterator){
@@ -26,9 +28,21 @@ namespace Gazeus.DesafioMatch3.Core
             return gameBoard;
         }
 
-         public List<BoardSequence> SwapTile(int fromX, int fromY, int toX, int toY)
+         public GameSequence SwapTile(int fromX, int fromY, int toX, int toY)
          {
-            return _boardIterator.SwapTile(fromX, fromY, toX, toY);
+            List<BoardSequence> boardSequences =  _boardIterator.SwapTile(fromX, fromY, toX, toY);
+            List<int> scoreSequences = new List<int>();
+            foreach(BoardSequence boardSequence in boardSequences){
+                _gameScore += boardSequence.MatchedPosition.Count;
+                scoreSequences.Add(_gameScore);
+            }
+
+            GameSequence gameSequence = new(){
+                BoardSequence = boardSequences,
+                ScoreSequence = scoreSequences
+            };
+
+            return gameSequence;
          }
 
         public bool IsValidMovement(int fromX, int fromY, int toX, int toY)

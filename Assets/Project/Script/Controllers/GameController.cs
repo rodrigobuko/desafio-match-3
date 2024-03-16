@@ -11,6 +11,7 @@ namespace Gazeus.DesafioMatch3.Controllers
     public class GameController : MonoBehaviour
     {
         [SerializeField] private BoardView _boardView;
+        [SerializeField] private ScoreView _scoreView;
         [SerializeField] private int _boardHeight = 10;
         [SerializeField] private int _boardWidth = 10;
 
@@ -38,19 +39,22 @@ namespace Gazeus.DesafioMatch3.Controllers
         }
         #endregion
 
-        private void AnimateBoard(List<BoardSequence> boardSequences, int index, Action onComplete)
+        private void AnimateBoard(GameSequence gameSequence, int index, Action onComplete)
         {
+            List<BoardSequence> boardSequences = gameSequence.BoardSequence;
             BoardSequence boardSequence = boardSequences[index];
+            int currentScore = gameSequence.ScoreSequence[index];
 
             Sequence sequence = DOTween.Sequence();
             sequence.Append(_boardView.DestroyTiles(boardSequence.MatchedPosition));
+            sequence.Join(_scoreView.UpdateScore(currentScore));
             sequence.Append(_boardView.MoveTiles(boardSequence.MovedTiles));
             sequence.Append(_boardView.CreateTile(boardSequence.AddedTiles));
 
             index += 1;
             if (index < boardSequences.Count)
             {
-                sequence.onComplete += () => AnimateBoard(boardSequences, index, onComplete);
+                sequence.onComplete += () => AnimateBoard(gameSequence, index, onComplete);
             }
             else
             {
@@ -77,7 +81,7 @@ namespace Gazeus.DesafioMatch3.Controllers
                         bool isValid = _gameEngine.IsValidMovement(_selectedX, _selectedY, x, y);
                         if (isValid)
                         {
-                            List<BoardSequence> swapResult = _gameEngine.SwapTile(_selectedX, _selectedY, x, y);
+                            GameSequence swapResult = _gameEngine.SwapTile(_selectedX, _selectedY, x, y);
                             AnimateBoard(swapResult, 0, () => _isAnimating = false);
                         }
                         else

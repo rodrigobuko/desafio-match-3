@@ -14,20 +14,21 @@ public class GameServiceTests
     int _defaultBoardHeight;
 
     IBoardIterator _boardIterator;
+    GameService _gameService;
 
     [SetUp]
     public void SetUp(){
         _defaultBoardWidth = 10;
         _defaultBoardHeight = 10;
         _boardIterator = Substitute.For<IBoardIterator>();
+        _gameService = new GameService(_boardIterator);
     }
 
     // A Test to check if the board created has no match
     [Test]
     public void StartGameTest()
     {
-        GameService gameService = new GameService(_boardIterator); 
-        Board board = gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
+        Board board = _gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
 
         List<List<Tile>> boardTiles = board.GetBoardTiles();
         Assert.NotNull(boardTiles);
@@ -45,9 +46,8 @@ public class GameServiceTests
         bool expected = true;
         _boardIterator.IsValidMovement(fromX, fromY, toX, toY).Returns(expected);
 
-        GameService gameService = new GameService(_boardIterator);
-        gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
-        bool actual = gameService.IsValidMovement(fromX, fromY, toX, toY);
+        _gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
+        bool actual = _gameService.IsValidMovement(fromX, fromY, toX, toY);
 
         Assert.AreEqual(expected, actual);
     }
@@ -62,9 +62,8 @@ public class GameServiceTests
         bool expected = false;
         _boardIterator.IsValidMovement(fromX, fromY, toX, toY).Returns(expected);
 
-        GameService gameService = new GameService(_boardIterator);   
-        gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
-        bool actual = gameService.IsValidMovement(fromX, fromY, toX, toY);
+        _gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
+        bool actual = _gameService.IsValidMovement(fromX, fromY, toX, toY);
 
         Assert.AreEqual(expected, actual);
     }
@@ -72,6 +71,59 @@ public class GameServiceTests
     [Test]
     public void SwapTileTest()
     {
-        // TODO: this will be further implemented 
+        int fromX = 0;
+        int fromY = 0;
+        int toX =  1;
+        int toY = 0;
+        List<BoardSequence> expectedBoardSequence = new List<BoardSequence>{
+            new BoardSequence{
+                MatchedPosition = new List<Vector2Int>{new Vector2Int(0,0), new Vector2Int(1,0), new Vector2Int(2,0), new Vector2Int(3,0)},
+                MovedTiles = new List<MovedTileInfo>{},
+                AddedTiles = new List<AddedTileInfo>{
+                    new AddedTileInfo{
+                        Position = new Vector2Int(0,0),
+                        Type = 2,
+                    },
+                    new AddedTileInfo{
+                        Position = new Vector2Int(1,0),
+                        Type = 5,
+                    },
+                    new AddedTileInfo{
+                        Position = new Vector2Int(2,0),
+                        Type = 8,
+                    },
+                    new AddedTileInfo{
+                        Position = new Vector2Int(3,0),
+                        Type = 3,
+                    },
+                }
+            },
+            new BoardSequence{
+                MatchedPosition = new List<Vector2Int>{new Vector2Int(4,0), new Vector2Int(5,0), new Vector2Int(6,0)},
+                MovedTiles = new List<MovedTileInfo>{},
+                AddedTiles = new List<AddedTileInfo>{
+                    new AddedTileInfo{
+                        Position = new Vector2Int(4,0),
+                        Type = 2,
+                    },
+                    new AddedTileInfo{
+                        Position = new Vector2Int(5,0),
+                        Type = 5,
+                    },
+                    new AddedTileInfo{
+                        Position = new Vector2Int(6,0),
+                        Type = 8,
+                    },
+                }
+            }
+        };
+        _boardIterator.SwapTile(fromX, fromY, toX, toY).Returns(expectedBoardSequence);
+        List<int> expectedScoreSequence = new List<int>{4 , 7};
+
+        _gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
+        GameSequence actual = _gameService.SwapTile(fromX, fromY, toX, toY);
+
+        Assert.AreEqual(expectedScoreSequence, actual.ScoreSequence);
+        Assert.AreEqual(expectedBoardSequence, actual.BoardSequence);
     }
 }
