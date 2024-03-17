@@ -39,9 +39,9 @@ public class BoardTests
         bool expected = false;
         _board.PopulateRandom();
         List<List<Tile>> boardTiles = _board.GetBoardTiles();
-        List<List<bool>> findMatches = boardTiles.FindMatches();
+        List<List<bool>> possibleMatches = boardTiles.FindMatches();
         
-        Assert.AreEqual(expected, findMatches.ContainsAnyTrue());
+        Assert.AreEqual(expected, possibleMatches.ContainsAnyMatch());
     }
 
     [Test]

@@ -21,6 +21,10 @@ namespace Gazeus.DesafioMatch3.Models
             CreateEmpty();
         }
 
+        public List<Tile> this[int y]{
+            get {return _boardTiles[y];}
+        }
+
         public int TileCount {
             get {return _tilesCount;}
             set {_tilesCount = value;}

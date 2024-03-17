@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Gazeus.DesafioMatch3.Extensions;
 using Gazeus.DesafioMatch3.Models;
 using UnityEngine;
@@ -11,7 +13,7 @@ namespace Gazeus.DesafioMatch3.Core
         bool IsValidMovement(int fromX, int fromY, int toX, int toY);
         List<BoardSequence> SwapTile(int fromX, int fromY, int toX, int toY);
     }
-    public class BoardIterator : IBoardIterator
+    public partial class BoardIterator : IBoardIterator
     {
         private Board _board;
 
@@ -27,7 +29,7 @@ namespace Gazeus.DesafioMatch3.Core
             (newBoardTiles[toY][toX], newBoardTiles[fromY][fromX]) = (newBoardTiles[fromY][fromX], newBoardTiles[toY][toX]);
             List<List<bool>> matchedTiles = newBoardTiles.FindMatches();
 
-            return matchedTiles.ContainsAnyTrue();
+            return matchedTiles.ContainsAnyMatch();
         }
 
         public List<BoardSequence> SwapTile(int fromX, int fromY, int toX, int toY)
@@ -38,8 +40,9 @@ namespace Gazeus.DesafioMatch3.Core
 
             List<BoardSequence> boardSequences = new();
             List<List<bool>> matchedTiles = newBoardTiles.FindMatches();
-
-            while (matchedTiles.ContainsAnyTrue())
+            ApplySpecialMatches(matchedTiles);
+            
+            while (matchedTiles.ContainsAnyMatch())
             {
                 //Cleaning the matched tiles
                 List<Vector2Int> matchedPosition = ClearBoardTiles(newBoardTiles, matchedTiles);
@@ -58,6 +61,7 @@ namespace Gazeus.DesafioMatch3.Core
                 };
                 boardSequences.Add(sequence);
                 matchedTiles = newBoardTiles.FindMatches();
+                ApplySpecialMatches(matchedTiles);
             }
 
             _board.UpdateBoardTiles(newBoardTiles);
@@ -65,7 +69,8 @@ namespace Gazeus.DesafioMatch3.Core
             return boardSequences;
         }
 
-        private List<Vector2Int> ClearBoardTiles(List<List<Tile>> boardTiles, List<List<bool>> matchedTiles){
+        private List<Vector2Int> ClearBoardTiles(List<List<Tile>> boardTiles, List<List<bool>> matchedTiles)
+        {
             List<Vector2Int> matchedPosition = new();
             for (int y = 0; y < boardTiles.Count; y++)
             {
@@ -81,7 +86,8 @@ namespace Gazeus.DesafioMatch3.Core
             return matchedPosition;
         }
 
-        private List<MovedTileInfo> DropBoardTiles(List<List<Tile>> boardTiles, List<Vector2Int> matchedPosition){
+        private List<MovedTileInfo> DropBoardTiles(List<List<Tile>> boardTiles, List<Vector2Int> matchedPosition)
+        {
             Dictionary<int, MovedTileInfo> movedTiles = new();
             List<MovedTileInfo> movedTilesList = new();
             for (int i = 0; i < matchedPosition.Count; i++)
@@ -132,7 +138,7 @@ namespace Gazeus.DesafioMatch3.Core
                 {
                     if (boardTiles[y][x].Type == -1)
                     {
-                        int tileType = Random.Range(0, _board.GetTileTypes().Count);
+                        int tileType = UnityEngine.Random.Range(0, _board.GetTileTypes().Count);
                         Tile tile = boardTiles[y][x];
                         tile.Id = _board.TileCount++;
                         tile.Type = _board.GetTileTypes()[tileType];

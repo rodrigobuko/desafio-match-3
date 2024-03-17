@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Gazeus.DesafioMatch3.Extensions
 {
-    public static class BoardExtensions 
+    public static class BoardTilesExtensions 
     {
         public static List<List<bool>> FindMatches( this List<List<Tile>> boardTiles)
         {
