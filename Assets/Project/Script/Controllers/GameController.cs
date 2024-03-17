@@ -12,6 +12,7 @@ namespace Gazeus.DesafioMatch3.Controllers
     {
         [SerializeField] private BoardView _boardView;
         [SerializeField] private ScoreView _scoreView;
+        [SerializeField] private ComboView _comboView;
         [SerializeField] private int _boardHeight = 10;
         [SerializeField] private int _boardWidth = 10;
 
@@ -48,6 +49,7 @@ namespace Gazeus.DesafioMatch3.Controllers
             Sequence sequence = DOTween.Sequence();
             sequence.Append(_boardView.DestroyTiles(boardSequence.MatchedPosition));
             sequence.Join(_scoreView.UpdateScore(currentScore));
+            sequence.Join(_comboView.UpdateCombo(index + 1));
             sequence.Append(_boardView.MoveTiles(boardSequence.MovedTiles));
             sequence.Append(_boardView.CreateTile(boardSequence.AddedTiles));
 
@@ -82,7 +84,10 @@ namespace Gazeus.DesafioMatch3.Controllers
                         if (isValid)
                         {
                             GameSequence swapResult = _gameEngine.SwapTile(_selectedX, _selectedY, x, y);
-                            AnimateBoard(swapResult, 0, () => _isAnimating = false);
+                            AnimateBoard(swapResult, 0, () => {
+                                _comboView.EndCombo();
+                                _isAnimating = false;
+                            });
                         }
                         else
                         {

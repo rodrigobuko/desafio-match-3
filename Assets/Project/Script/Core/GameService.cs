@@ -21,7 +21,7 @@ namespace Gazeus.DesafioMatch3.Core
 
         public Board StartGame(int boardWidth, int boardHeight)
         {
-            List<int> tilesTypes = new List<int> { 0, 1, 2, 3, 4};
+            List<int> tilesTypes = new List<int> { 0, 1, 2, 3, 4, 5};
             Board gameBoard = new Board(boardWidth, boardHeight, tilesTypes);
             gameBoard.PopulateRandom();
             _boardIterator.AddBoard(gameBoard);
@@ -32,9 +32,11 @@ namespace Gazeus.DesafioMatch3.Core
          {
             List<BoardSequence> boardSequences =  _boardIterator.SwapTile(fromX, fromY, toX, toY);
             List<int> scoreSequences = new List<int>();
+            int comboMultiplier = 1;
             foreach(BoardSequence boardSequence in boardSequences){
-                _gameScore += boardSequence.MatchedPosition.Count;
+                _gameScore += boardSequence.MatchedPosition.Count * comboMultiplier;
                 scoreSequences.Add(_gameScore);
+                comboMultiplier++;
             }
 
             GameSequence gameSequence = new(){

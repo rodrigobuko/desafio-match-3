@@ -69,7 +69,48 @@ public class GameServiceTests
     }
 
     [Test]
-    public void SwapTileTest()
+    public void SwapTileWithoutComboTest()
+    {
+        int fromX = 0;
+        int fromY = 0;
+        int toX =  1;
+        int toY = 0;
+        List<BoardSequence> expectedBoardSequence = new List<BoardSequence>{
+            new BoardSequence{
+                MatchedPosition = new List<Vector2Int>{new Vector2Int(0,0), new Vector2Int(1,0), new Vector2Int(2,0), new Vector2Int(3,0)},
+                MovedTiles = new List<MovedTileInfo>{},
+                AddedTiles = new List<AddedTileInfo>{
+                    new AddedTileInfo{
+                        Position = new Vector2Int(0,0),
+                        Type = 2,
+                    },
+                    new AddedTileInfo{
+                        Position = new Vector2Int(1,0),
+                        Type = 5,
+                    },
+                    new AddedTileInfo{
+                        Position = new Vector2Int(2,0),
+                        Type = 8,
+                    },
+                    new AddedTileInfo{
+                        Position = new Vector2Int(3,0),
+                        Type = 3,
+                    },
+                }
+            },
+        };
+        _boardIterator.SwapTile(fromX, fromY, toX, toY).Returns(expectedBoardSequence);
+        List<int> expectedScoreSequence = new List<int>{4};
+
+        _gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
+        GameSequence actual = _gameService.SwapTile(fromX, fromY, toX, toY);
+
+        Assert.AreEqual(expectedScoreSequence, actual.ScoreSequence);
+        Assert.AreEqual(expectedBoardSequence, actual.BoardSequence);
+    }
+
+    [Test]
+    public void SwapTileWithComboTest()
     {
         int fromX = 0;
         int fromY = 0;
@@ -118,7 +159,7 @@ public class GameServiceTests
             }
         };
         _boardIterator.SwapTile(fromX, fromY, toX, toY).Returns(expectedBoardSequence);
-        List<int> expectedScoreSequence = new List<int>{4 , 7};
+        List<int> expectedScoreSequence = new List<int>{4 , 10};
 
         _gameService.StartGame(_defaultBoardWidth, _defaultBoardHeight);
         GameSequence actual = _gameService.SwapTile(fromX, fromY, toX, toY);

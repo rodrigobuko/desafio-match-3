@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 namespace Gazeus.DesafioMatch3.Views
 {
-
     public class ScoreView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
@@ -17,12 +16,18 @@ namespace Gazeus.DesafioMatch3.Views
         [SerializeField] private AnimationTileParameters _animationTileParameters;
         public Tween UpdateScore(int newScore)
         {
-            _scoreText.transform.DOShakePosition(0.4f, strength: new Vector3(shakePositions.x, shakePositions.y, 0), vibrato: intensity, randomness: 90, snapping: false, fadeOut: true)
-            .OnComplete(() =>
-            {
-                _scoreText.text = newScore.ToString();
-            });
-            return DOVirtual.DelayedCall(_animationTileParameters.DefaultTileAnimationDuration, () => { });
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(_scoreText.transform.DOShakePosition(_animationTileParameters.DefaultTileAnimationDuration,
+                strength: new Vector3(shakePositions.x, shakePositions.y, 0),
+                vibrato: intensity,
+                randomness: 90,
+                snapping: false,
+                fadeOut: true)
+                .OnComplete(() =>
+                {
+                    _scoreText.text = newScore.ToString();
+                }));
+            return sequence;
         }
     }
 }
