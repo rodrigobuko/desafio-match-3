@@ -2,27 +2,23 @@ Shader "UI/Gradient"
 {
     Properties
     {
-        _TopColor ("Top Color", Color) = (1, 1, 1, 1)
-        _BottomColor ("Bottom Color", Color) = (0, 0, 0, 1)
-        _Direction ("Direction", Vector) = (0, 1, 0, 0)
+        _TopColour("Top Gradient Colour: ", Color) = (1,1,1,1)
+        _BottomColour("Bottom Gradient Colour: ", Color) = (0,0,0,1)
     }
     SubShader
     {
-        Tags { "Queue"="Overlay" "IgnoreProjector"="True" "RenderType"="Transparent" }
+        Tags {"RenderType"="Opaque"}
         LOD 100
-
-        Blend SrcAlpha OneMinusSrcAlpha
-        Cull Off
-        ZWrite Off
 
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
             #include "UnityCG.cginc"
 
-            struct appdata_t
+            struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
@@ -30,29 +26,27 @@ Shader "UI/Gradient"
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
-                fixed4 vertex : SV_POSITION;
+                // We output the colour from each vertex for the fragment shader.
+                float4 colour : TEXCOORD0;
+                float4 vertex : SV_POSITION;
             };
 
-            fixed4 _TopColor;
-            fixed4 _BottomColor;
-            float4 _Direction;
+            fixed4 _TopColour;
+            fixed4 _BottomColour;
 
-            v2f vert (appdata_t v)
+            v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                // Interpolate the colour between each vertex.
+                o.colour = lerp(_BottomColour, _TopColour, v.uv.y);
                 return o;
             }
 
-            // Simple Gradient Shader learping _BottomColor and _TopColor
             fixed4 frag (v2f i) : SV_Target
             {
-                float gradientFactor = dot(i.uv, _Direction);
-                fixed4 gradientColor = lerp(_BottomColor, _TopColor, gradientFactor);
-
-                return gradientColor;
+                // The colour will be interpolated from the vertex colours.
+                return i.colour;
             }
             ENDCG
         }
