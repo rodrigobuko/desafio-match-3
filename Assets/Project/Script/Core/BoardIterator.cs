@@ -37,8 +37,8 @@ namespace Gazeus.DesafioMatch3.Core
             (newBoardTiles[toY][toX], newBoardTiles[fromY][fromX]) = (newBoardTiles[fromY][fromX], newBoardTiles[toY][toX]);
 
             List<BoardSequence> boardSequences = new();
-            List<List<bool>> matchedTiles = newBoardTiles.FindMatches();
-            ApplySpecialMatches(matchedTiles, newBoardTiles);
+            List<List<bool>> matchedTilesBeforeSpecialMatches = newBoardTiles.FindMatches();
+            List<List<bool>> matchedTiles =  ApplySpecialMatches(matchedTilesBeforeSpecialMatches, newBoardTiles);
             
 
             while (matchedTiles.ContainsAnyMatch())
@@ -59,8 +59,8 @@ namespace Gazeus.DesafioMatch3.Core
                     AddedTiles = addedTiles
                 };
                 boardSequences.Add(sequence);
-                matchedTiles = newBoardTiles.FindMatches();
-                ApplySpecialMatches(matchedTiles, newBoardTiles);
+                matchedTilesBeforeSpecialMatches = newBoardTiles.FindMatches();
+                matchedTiles =  ApplySpecialMatches(matchedTilesBeforeSpecialMatches, newBoardTiles);
             }
 
             _board.UpdateBoardTiles(newBoardTiles);

@@ -37,5 +37,19 @@ namespace Gazeus.DesafioMatch3.Extensions
             }
             return matchedPositions;
         }
+
+        public static List<List<bool>> GetCopy(this List<List<bool>> matchedTiles)
+        {
+            List<List<bool>> copy = new List<List<bool>>();
+            for (int y = 0; y < matchedTiles.Count; y++)
+            {
+                copy.Add(new List<bool>());
+                for (int x = 0; x < matchedTiles[y].Count; x++)
+                {
+                    copy[y].Add(matchedTiles[y][x]);
+                }
+            }
+            return copy;
+        }
     }
 }

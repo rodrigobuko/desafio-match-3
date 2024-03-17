@@ -8,7 +8,11 @@ namespace Gazeus.DesafioMatch3.Extensions
 {
     public static class BoardTilesExtensions 
     {
-        public static List<List<bool>> FindMatches( this List<List<Tile>> boardTiles)
+        /// <summary>
+        /// Checks for matches of 3 or more identical tiles on the board.
+        /// </summary>
+        /// <returns>A List of lists of the same size of the boardTiles indicating true where matches occured.</returns>
+        public static List<List<bool>> FindMatches(this List<List<Tile>> boardTiles)
         {
             List<List<bool>> matchedTiles = new();
             for (int y = 0; y < boardTiles.Count; y++)
@@ -47,7 +51,13 @@ namespace Gazeus.DesafioMatch3.Extensions
             return matchedTiles;
         }
 
-        public static bool HasLPattern( this List<List<Tile>> boardTiles, Vector2Int position){
+        /// <summary>
+        /// Check if the boardTiles has a L pattern in the specified position.
+        /// L pattern is when the tile is sharing a match with a row and column AND is not the center Tile of any of the 2 matches. 
+        /// /// </summary>
+        /// <param name="position">The position to check for the L pattern.</param>
+        /// <returns>true if the pattern is matched </returns>
+        public static bool HasLPattern(this List<List<Tile>> boardTiles, Vector2Int position){
             int row = position.y;
             int column = position.x;
             int currentType = boardTiles[row][column].Type;
@@ -109,9 +119,17 @@ namespace Gazeus.DesafioMatch3.Extensions
             return false;
         }
 
-        public static bool HasRowPattern( this List<List<Tile>> boardTiles, int row){
+        /// <summary>
+        /// Check if the boardTiles has a Row pattern in the specified row
+        /// Row pattern is when there are 4 equal tiles in the row 
+        /// </summary>
+        /// <param name="row">The row to check for the Row pattern.</param>
+        /// <returns>true if the pattern is matched </returns>
+        public static bool HasRowPattern(this List<List<Tile>> boardTiles, Vector2Int position){
+            int row = position.y;
+            int column = position.x;
+            int currentType = boardTiles[row][column].Type;
             for(int x = 0; x < boardTiles[row].Count; x++){
-                int currentType = boardTiles[row][x].Type;
                 if (x > 2)
                 {
                     if (boardTiles[row][x - 3].Type == currentType &&
@@ -127,9 +145,17 @@ namespace Gazeus.DesafioMatch3.Extensions
             return false;
         }
 
-        public static bool HasColumnPattern( this List<List<Tile>> boardTiles, int column){
+        /// <summary>
+        /// Check if the boardTiles has a Column pattern in the specified row
+        /// Column pattern is when there are 4 equal tiles in the row 
+        /// </summary>
+        /// <param name="column">The row to check for the Column pattern.</param>
+        /// <returns>true if the pattern is matched </returns>
+        public static bool HasColumnPattern(this List<List<Tile>> boardTiles, Vector2Int position){
+            int row = position.y;
+            int column = position.x;
+            int currentType = boardTiles[row][column].Type;
             for(int y = 0; y < boardTiles.Count; y++){
-                int currentType = boardTiles[y][column].Type;
                 if (y > 2)
                 {
                     if (boardTiles[y - 3][column].Type == currentType &&
@@ -145,11 +171,17 @@ namespace Gazeus.DesafioMatch3.Extensions
             return false;
         }
 
-        public static bool HasColorPattern( this List<List<Tile>> boardTiles, Vector2Int position){
+        /// <summary>
+        /// Check if the boardTiles has a Color pattern in the specified position.
+        /// Color pattern is when there are 5 equal tiles in the same row or column 
+        /// </summary>
+        /// <param name="position">The position to check for the L pattern.</param>
+        /// <returns>true if the pattern is matched </returns>
+        public static bool HasColorPattern(this List<List<Tile>> boardTiles, Vector2Int position){
             int row = position.y;
             int column = position.x;
+            int currentType = boardTiles[row][column].Type;
             for(int y = 0; y < boardTiles.Count; y++){
-                int currentType = boardTiles[y][column].Type;
                 if (y > 3)
                 {
                     if (boardTiles[y - 4][column].Type == currentType &&
@@ -164,7 +196,6 @@ namespace Gazeus.DesafioMatch3.Extensions
             }
 
             for(int x = 0; x < boardTiles[row].Count; x++){
-                int currentType = boardTiles[row][x].Type;
                 if (x > 3)
                 {
                     if (boardTiles[row][x - 4].Type == currentType &&
@@ -181,7 +212,13 @@ namespace Gazeus.DesafioMatch3.Extensions
             return false;
         }
 
-        public static bool HasCrossPattern( this List<List<Tile>> boardTiles, Vector2Int position){
+        /// <summary>
+        /// Check if the boardTiles has a Cross pattern in the specified position.
+        /// Cross pattern is the tile is sharing a match with a row and column AND is the center Tile of the 2 matches. 
+        /// </summary>
+        /// <param name="position">The position to check for the L pattern.</param>
+        /// <returns>true if the pattern is matched </returns>
+        public static bool HasCrossPattern(this List<List<Tile>> boardTiles, Vector2Int position){
             int row = position.y;
             int column = position.x;
             int currentType = boardTiles[row][column].Type;
