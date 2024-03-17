@@ -142,7 +142,7 @@ public class BoardIteratorTests
         int fromY = 1;
         int toX = 0;
         int toY = 1;
-        List<List<int>> clearRowBoardTypeDistribution = new List<List<int>>
+        List<List<int>> clearColumnBoardTypeDistribution = new List<List<int>>
         {
             new List<int>{1,2,3,22,15},
             new List<int>{4,1,5,6,16},
@@ -150,8 +150,8 @@ public class BoardIteratorTests
             new List<int>{1,12,13,14,18},
             new List<int>{19,20,21,22,23},
         };
-        Board clearRowBoard = MockGenericBoard(clearRowBoardTypeDistribution);
-        _boardIterator.AddBoard(clearRowBoard);
+        Board clearColumnBoard = MockGenericBoard(clearColumnBoardTypeDistribution);
+        _boardIterator.AddBoard(clearColumnBoard);
         List<Vector2Int> expectedFirstMatchedTilesPositions = new List<Vector2Int>{new Vector2Int(0,0), new Vector2Int(0,1), new Vector2Int(0,2), new Vector2Int(0,3), new Vector2Int(0,4)};
         int expectedFirstMoveTilesCount = 0;
         int expectedFirstAddedTilesCount = 5;
@@ -171,7 +171,7 @@ public class BoardIteratorTests
         int fromY = 0;
         int toX = 1;
         int toY = 0;
-        List<List<int>> clearRowBoardTypeDistribution = new List<List<int>>
+        List<List<int>> clearLPatternBoardTypeDistribution = new List<List<int>>
         {
             new List<int>{1,2,1,1,15},
             new List<int>{4,1,5,6,16},
@@ -179,8 +179,8 @@ public class BoardIteratorTests
             new List<int>{23,12,13,14,18},
             new List<int>{19,20,21,22,23},
         };
-        Board clearRowBoard = MockGenericBoard(clearRowBoardTypeDistribution);
-        _boardIterator.AddBoard(clearRowBoard);
+        Board clearLPatternBoard = MockGenericBoard(clearLPatternBoardTypeDistribution);
+        _boardIterator.AddBoard(clearLPatternBoard);
         List<Vector2Int> expectedFirstMatchedTilesPositions = new List<Vector2Int>{new Vector2Int(0,0), new Vector2Int(1,0), new Vector2Int(2,0), new Vector2Int(3,0), new Vector2Int(0,1), new Vector2Int(1,1), new Vector2Int(2,1), new Vector2Int(1,2)};
         int expectedFirstMoveTilesCount = 0;
         int expectedFirstAddedTilesCount = 8;
@@ -200,7 +200,7 @@ public class BoardIteratorTests
         int fromY = 2;
         int toX = 0;
         int toY = 2;
-        List<List<int>> clearRowBoardTypeDistribution = new List<List<int>>
+        List<List<int>> clearColorBoardTypeDistribution = new List<List<int>>
         {
             new List<int>{1,2,3,1,1},
             new List<int>{1,4,5,6,16},
@@ -208,7 +208,7 @@ public class BoardIteratorTests
             new List<int>{1,12,13,14,18},
             new List<int>{1,20,21,22,23},
         };
-        Board clearRowBoard = MockGenericBoard(clearRowBoardTypeDistribution);
+        Board clearRowBoard = MockGenericBoard(clearColorBoardTypeDistribution);
         _boardIterator.AddBoard(clearRowBoard);
         List<Vector2Int> expectedFirstMatchedTilesPositions = new List<Vector2Int>{new Vector2Int(0,0), new Vector2Int(3,0), new Vector2Int(4,0), new Vector2Int(0,1), new Vector2Int(0,2), new Vector2Int(0,3), new Vector2Int(0,4)};
         int expectedFirstMoveTilesCount = 0;

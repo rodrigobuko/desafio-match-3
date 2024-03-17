@@ -17,6 +17,8 @@ namespace Gazeus.DesafioMatch3.Views
         [SerializeField] private TilePrefabRepository _tilePrefabRepository;
         [SerializeField] private TileSpotView _tileSpotPrefab;
 
+        [SerializeField] private AnimationTileParameters _animationTileParameters;
+
         private GameObject[][] _tiles;
         private TileSpotView[][] _tileSpots;
 
@@ -72,7 +74,7 @@ namespace Gazeus.DesafioMatch3.Views
                 _tiles[position.y][position.x] = tile;
 
                 tile.transform.localScale = Vector2.zero;
-                sequence.Join(tile.transform.DOScale(1.0f, 0.2f));
+                sequence.Join(tile.transform.DOScale(1.0f, _animationTileParameters.DefaultTileAnimationDuration));
             }
 
             return sequence;
@@ -87,7 +89,7 @@ namespace Gazeus.DesafioMatch3.Views
                 _tiles[position.y][position.x] = null;
             }
 
-            return DOVirtual.DelayedCall(0.2f, () => { });
+            return DOVirtual.DelayedCall(_animationTileParameters.DefaultTileAnimationDuration, () => { });
         }
 
         public Tween MoveTiles(List<MovedTileInfo> movedTiles)

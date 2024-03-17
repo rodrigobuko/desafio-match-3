@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Gazeus.DesafioMatch3.Extensions;
 using Gazeus.DesafioMatch3.Models;
 using UnityEngine;
@@ -40,8 +38,9 @@ namespace Gazeus.DesafioMatch3.Core
 
             List<BoardSequence> boardSequences = new();
             List<List<bool>> matchedTiles = newBoardTiles.FindMatches();
-            ApplySpecialMatches(matchedTiles);
+            ApplySpecialMatches(matchedTiles, newBoardTiles);
             
+
             while (matchedTiles.ContainsAnyMatch())
             {
                 //Cleaning the matched tiles
@@ -61,7 +60,7 @@ namespace Gazeus.DesafioMatch3.Core
                 };
                 boardSequences.Add(sequence);
                 matchedTiles = newBoardTiles.FindMatches();
-                ApplySpecialMatches(matchedTiles);
+                ApplySpecialMatches(matchedTiles, newBoardTiles);
             }
 
             _board.UpdateBoardTiles(newBoardTiles);
@@ -138,7 +137,7 @@ namespace Gazeus.DesafioMatch3.Core
                 {
                     if (boardTiles[y][x].Type == -1)
                     {
-                        int tileType = UnityEngine.Random.Range(0, _board.GetTileTypes().Count);
+                        int tileType = Random.Range(0, _board.GetTileTypes().Count);
                         Tile tile = boardTiles[y][x];
                         tile.Id = _board.TileCount++;
                         tile.Type = _board.GetTileTypes()[tileType];
