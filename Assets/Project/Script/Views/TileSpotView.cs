@@ -21,7 +21,7 @@ namespace Gazeus.DesafioMatch3.Views
         }
         #endregion
 
-        public Tween AnimatedSetTile(GameObject tile)
+        public Tween AnimatedSetTile(TileView tile)
         {
             tile.transform.SetParent(transform);
             tile.transform.DOKill();
@@ -35,7 +35,7 @@ namespace Gazeus.DesafioMatch3.Views
             _y = y;
         }
 
-        public void SetTile(GameObject tile)
+        public void SetTile(TileView tile)
         {
             tile.transform.SetParent(transform, false);
             tile.transform.position = transform.position;
