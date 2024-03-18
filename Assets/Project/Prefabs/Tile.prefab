@@ -91,3 +91,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tilePrefabRepository: {fileID: 11400000, guid: 153eac3747f207a40add49ed6e2dacb9, type: 2}
   _tileImage: {fileID: 5081017411826003480}
+  _animationTileParameters: {fileID: 11400000, guid: 79f2cad947a714b30b94ac20b3014e99, type: 2}
+  scaleFactor: 0.8
+  scaleTime: 0.5
+  selectTileDelayTime: 0.5
+  punchRotationPower: 30

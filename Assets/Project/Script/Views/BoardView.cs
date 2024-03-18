@@ -11,7 +11,6 @@ namespace Gazeus.DesafioMatch3.Views
     public class BoardView : MonoBehaviour
     {
         public event Action<int, int> TileClicked;
-
         [SerializeField] private GridLayoutGroup _boardContainer;
         [SerializeField] private RectTransform _boardContainerRect;
         [SerializeField] private TilePrefabRepository _tilePrefabRepository;
@@ -116,9 +115,7 @@ namespace Gazeus.DesafioMatch3.Views
                 tileSpot.SetTile(tile);
 
                 _tiles[position.y][position.x] = tile;
-
-                tile.transform.localScale = Vector2.zero;
-                sequence.Join(tile.transform.DOScale(1.0f, _animationTileParameters.DefaultTileAnimationDuration));
+                sequence.Join(tile.CreateTileAnimation());
             }
 
             return sequence;
@@ -126,14 +123,22 @@ namespace Gazeus.DesafioMatch3.Views
 
         public Tween DestroyTiles(List<Vector2Int> matchedPosition)
         {
+            Sequence shakeSequence = DOTween.Sequence();
+            Sequence deleteSequence = DOTween.Sequence();
+            Sequence matchSequence = DOTween.Sequence();
             for (int i = 0; i < matchedPosition.Count; i++)
             {
                 Vector2Int position = matchedPosition[i];
-                ReturnTileToPool(_tiles[position.y][position.x]);
-                _tiles[position.y][position.x] = null;
+                TileView tile = _tiles[position.y][position.x];
+                shakeSequence.Join(tile.MatchTileShakeAnimation());
+                deleteSequence.Join(tile.MatchTileDeleteAnimation(() => {
+                    ReturnTileToPool(tile);
+                }));
             }
 
-            return DOVirtual.DelayedCall(_animationTileParameters.DefaultTileAnimationDuration, () => { });
+            matchSequence.Append(shakeSequence);
+            matchSequence.Append(deleteSequence);
+            return matchSequence;
         }
 
         public Tween MoveTiles(List<MovedTileInfo> movedTiles)
@@ -156,7 +161,7 @@ namespace Gazeus.DesafioMatch3.Views
                 Vector2Int from = movedTileInfo.From;
                 Vector2Int to = movedTileInfo.To;
 
-                sequence.Join(_tileSpots[to.y][to.x].AnimatedSetTile(_tiles[from.y][from.x]));
+                sequence.Join(_tileSpots[to.y][to.x].AnimatedSetTile(_tiles[from.y][from.x], _animationTileParameters.DefaultTileAnimationDuration));
 
                 tiles[to.y][to.x] = _tiles[from.y][from.x];
             }
@@ -169,12 +174,23 @@ namespace Gazeus.DesafioMatch3.Views
         public Tween SwapTiles(int fromX, int fromY, int toX, int toY)
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(_tileSpots[fromY][fromX].AnimatedSetTile(_tiles[toY][toX]));
-            sequence.Join(_tileSpots[toY][toX].AnimatedSetTile(_tiles[fromY][fromX]));
+            _tiles[fromY][fromX].StopSelectTileAnimation();
+            sequence.Append(_tileSpots[fromY][fromX].AnimatedSetTile(_tiles[toY][toX], _animationTileParameters.DefaultTileAnimationDuration));
+            sequence.Join(_tileSpots[toY][toX].AnimatedSetTile(_tiles[fromY][fromX], _animationTileParameters.DefaultTileAnimationDuration));
 
             (_tiles[toY][toX], _tiles[fromY][fromX]) = (_tiles[fromY][fromX], _tiles[toY][toX]);
 
             return sequence;
+        }
+
+        public void AnimateTile(int x, int y)
+        {
+            _tiles[y][x].SelectTileAnimation();
+        }
+
+        public void StopAnimateTile(int x, int y)
+        {
+            _tiles[y][x].StopSelectTileAnimation();
         }
 
         #region Events

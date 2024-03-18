@@ -72,8 +72,10 @@ namespace Gazeus.DesafioMatch3.Controllers
             {
                 if (Mathf.Abs(_selectedX - x) + Mathf.Abs(_selectedY - y) > 1)
                 {
-                    _selectedX = -1;
-                    _selectedY = -1;
+                    _boardView.StopAnimateTile(_selectedX, _selectedY);
+                    _selectedX = x;
+                    _selectedY = y;
+                    _boardView.AnimateTile(x,y);
                 }
                 else
                 {
@@ -102,6 +104,7 @@ namespace Gazeus.DesafioMatch3.Controllers
             {
                 _selectedX = x;
                 _selectedY = y;
+                _boardView.AnimateTile(x,y);
             }
         }
     }

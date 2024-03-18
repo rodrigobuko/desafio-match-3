@@ -21,12 +21,12 @@ namespace Gazeus.DesafioMatch3.Views
         }
         #endregion
 
-        public Tween AnimatedSetTile(TileView tile)
+        public Tween AnimatedSetTile(TileView tile, float duration)
         {
             tile.transform.SetParent(transform);
             tile.transform.DOKill();
 
-            return tile.transform.DOMove(transform.position, 0.3f);
+            return tile.transform.DOMove(transform.position, duration);
         }
 
         public void SetPosition(int x, int y)
