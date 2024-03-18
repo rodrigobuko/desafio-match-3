@@ -20,8 +20,10 @@ namespace Gazeus.DesafioMatch3.Controllers
 
         [Header("Game")]
         [SerializeField] private GameRules _gameRules;
+        [SerializeField] private SceneRepository _sceneRepository;
 
         private GameService _gameEngine;
+        private SceneService _sceneEngine;
         private Game _currentGame;
         private bool _isAnimating;
         private int _selectedX = -1;
@@ -33,7 +35,9 @@ namespace Gazeus.DesafioMatch3.Controllers
         {
             _currentGame = _gameRules.GetGameFromRules();
             _gameEngine = new GameService(new BoardIterator(), _currentGame);
+            _sceneEngine = new SceneService(_sceneRepository.GetGameScenes());
             _gameModeHudView.SetUpGameHud(_currentGame);
+            _gameOverView.SetUpGameOver(RestartGame, () => _sceneEngine.LoadMainMenuScene());
             _boardView.TileClicked += OnTileClick;
         }
 
@@ -140,6 +144,20 @@ namespace Gazeus.DesafioMatch3.Controllers
         private void GameOver()
         {
             _gameOverView.ShowGameOver(_gameEngine.GetScore(), _gameEngine.GetScore());
+        }
+
+        private void RestartGame()
+        {
+            Board board = _gameEngine.StartGame();
+            _boardView.ClearBoard();
+            _boardView.PopulateBoard(board.GetBoardTiles());
+
+            _roundsPlayed = 0;
+            _gameModeHudView.UpdateGamePlays(_roundsPlayed);
+
+            _scoreView.UpdateScoreWithoutAnimation(_gameEngine.GetScore());
+
+            _gameOverView.DisableGameOver();
         }
     }
 }

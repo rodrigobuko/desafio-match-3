@@ -28,6 +28,7 @@ namespace Gazeus.DesafioMatch3.Core
 
         public Board StartGame()
         {
+            _gameScore = 0;
             List<int> tilesTypes = _game.TileTypes;
             Board gameBoard = new Board(_game.BoardWidth, _game.BoardHeight, tilesTypes);
             gameBoard.PopulateRandom();

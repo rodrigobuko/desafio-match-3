@@ -30,7 +30,7 @@ namespace Gazeus.DesafioMatch3.Views
             {
                 case GameModes.ClassicGame:
                     _classicGameHudHolder.SetActive(true);
-                    _classicText.text = $"{_game.LimitOfRounds}";
+                    _classicText.text = _game.LimitOfRounds.ToString();
                     break;
                 default:
                     return;

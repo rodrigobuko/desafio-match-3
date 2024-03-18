@@ -6,7 +6,10 @@ namespace Gazeus.DesafioMatch3.Extensions
 {
     public static class MatchedTilesExtensions 
     {
-        // Extension to check if there is any true value
+        /// <summary>
+        /// Check if there is any match (true value) in this matchedTiles
+        /// /// </summary>
+        /// <returns>true if there are any match (true value)</returns>
         public static bool ContainsAnyMatch(this List<List<bool>> matchedTiles)
         {
             foreach (var matchedTilesList in matchedTiles)
@@ -22,6 +25,10 @@ namespace Gazeus.DesafioMatch3.Extensions
             return false;
         }
 
+        /// <summary>
+        /// Get all matched positions.
+        /// /// </summary>
+        /// <returns>List of positions where is a match </returns>
         public static List<Vector2Int> GetMatchedPositions(this List<List<bool>> matchedTiles)
         {
             List<Vector2Int> matchedPositions = new List<Vector2Int>();
@@ -38,6 +45,10 @@ namespace Gazeus.DesafioMatch3.Extensions
             return matchedPositions;
         }
 
+        /// <summary>
+        /// Get a exact copy of this matchedTiles
+        /// /// </summary>
+        /// <returns>The matchedTiles copy </returns>
         public static List<List<bool>> GetCopy(this List<List<bool>> matchedTiles)
         {
             List<List<bool>> copy = new List<List<bool>>();

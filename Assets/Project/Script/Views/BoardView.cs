@@ -100,6 +100,39 @@ namespace Gazeus.DesafioMatch3.Views
             _boardContainer.cellSize = new Vector2(_boardContainerRect.rect.width / board[0].Count, _boardContainerRect.rect.height / board.Count);
         }
 
+        public void PopulateBoard(List<List<Tile>> board)
+        {
+            _tiles = new TileView[board.Count][];
+
+            for (int y = 0; y < board.Count; y++)
+            {
+                _tiles[y] = new TileView[board[0].Count];
+
+                for (int x = 0; x < board[0].Count; x++)
+                {
+                    int tileTypeIndex = board[y][x].Type;
+                    if (tileTypeIndex > -1)
+                    {
+                        TileView tile = GetTileFromPool();
+                        tile.SetColorByType(tileTypeIndex);
+                        _tileSpots[y][x].SetTile(tile);
+
+                        _tiles[y][x] = tile;
+                    }
+                }
+            }
+        }
+
+        public void ClearBoard()
+        {
+            foreach(TileView tile in _tilePool){
+                if (tile.gameObject.activeInHierarchy)
+                {
+                    tile.gameObject.SetActive(false);
+                }
+            }
+        }
+
         public Tween CreateTile(List<AddedTileInfo> addedTiles)
         {
             Sequence sequence = DOTween.Sequence();

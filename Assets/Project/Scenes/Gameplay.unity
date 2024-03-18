@@ -2496,6 +2496,7 @@ MonoBehaviour:
   _gameModeHudView: {fileID: 341517017}
   _gameOverView: {fileID: 1458595611}
   _gameRules: {fileID: 11400000, guid: 70d89890a5d794fdd8f2d2b390f80cee, type: 2}
+  _sceneRepository: {fileID: 11400000, guid: 872e4fea22b014053b98d3edafaeebbd, type: 2}
 --- !u!4 &1361904665
 Transform:
   m_ObjectHideFlags: 0
@@ -2564,6 +2565,8 @@ MonoBehaviour:
   _gameOverContainer: {fileID: 942744117}
   _scoreText: {fileID: 761496890}
   _highScoreText: {fileID: 49243989}
+  _playAgainButton: {fileID: 94946746}
+  _backToMenuButton: {fileID: 1490029425}
 --- !u!1 &1490029423
 GameObject:
   m_ObjectHideFlags: 0
@@ -2987,8 +2990,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294930999
-  m_fontColor: {r: 0.21568628, g: 0.44705883, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

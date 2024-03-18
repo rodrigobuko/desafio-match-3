@@ -29,5 +29,10 @@ namespace Gazeus.DesafioMatch3.Views
                 }));
             return sequence;
         }
+
+        public void UpdateScoreWithoutAnimation(int newScore)
+        {
+            _scoreText.text = newScore.ToString();
+        }
     }
 }
