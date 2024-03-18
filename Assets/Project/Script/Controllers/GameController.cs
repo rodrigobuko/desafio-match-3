@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Gazeus.DesafioMatch3.Core;
 using Gazeus.DesafioMatch3.Models;
+using Gazeus.DesafioMatch3.ScriptableObjects;
 using Gazeus.DesafioMatch3.Views;
 using UnityEngine;
 
@@ -10,21 +11,29 @@ namespace Gazeus.DesafioMatch3.Controllers
 {
     public class GameController : MonoBehaviour
     {
+        [Header("Views")]
         [SerializeField] private BoardView _boardView;
         [SerializeField] private ScoreView _scoreView;
         [SerializeField] private ComboView _comboView;
-        [SerializeField] private int _boardHeight = 10;
-        [SerializeField] private int _boardWidth = 10;
+        [SerializeField] private GameModeHudView _gameModeHudView;
+        [SerializeField] private GameOverView _gameOverView;
+
+        [Header("Game")]
+        [SerializeField] private GameRules _gameRules;
 
         private GameService _gameEngine;
+        private Game _currentGame;
         private bool _isAnimating;
         private int _selectedX = -1;
         private int _selectedY = -1;
+        private int _roundsPlayed = 0;
 
         #region Unity
         private void Awake()
         {
-            _gameEngine = new GameService(new BoardIterator());
+            _currentGame = _gameRules.GetGameFromRules();
+            _gameEngine = new GameService(new BoardIterator(), _currentGame);
+            _gameModeHudView.SetUpGameHud(_currentGame);
             _boardView.TileClicked += OnTileClick;
         }
 
@@ -35,7 +44,7 @@ namespace Gazeus.DesafioMatch3.Controllers
 
         private void Start()
         {
-            Board board = _gameEngine.StartGame(_boardWidth, _boardHeight);
+            Board board = _gameEngine.StartGame();
             _boardView.CreateBoard(board.GetBoardTiles());
         }
         #endregion
@@ -87,8 +96,7 @@ namespace Gazeus.DesafioMatch3.Controllers
                         {
                             GameSequence swapResult = _gameEngine.SwapTile(_selectedX, _selectedY, x, y);
                             AnimateBoard(swapResult, 0, () => {
-                                _comboView.EndCombo();
-                                _isAnimating = false;
+                                EndRound();
                             });
                         }
                         else
@@ -106,6 +114,32 @@ namespace Gazeus.DesafioMatch3.Controllers
                 _selectedY = y;
                 _boardView.AnimateTile(x,y);
             }
+        }
+
+        private void EndRound(){
+            _comboView.EndCombo();
+            _roundsPlayed++;
+            _gameModeHudView.UpdateGamePlays(_roundsPlayed);
+            if(CheckEndGameCondition()){
+                GameOver();
+            }
+            _isAnimating = false;
+        }
+
+        private bool CheckEndGameCondition()
+        {
+            switch (_currentGame.GameMode)
+            {
+                case GameModes.ClassicGame:
+                    return _roundsPlayed >= _currentGame.LimitOfRounds;
+                default:
+                    return false;
+            }
+        }
+
+        private void GameOver()
+        {
+            _gameOverView.ShowGameOver(_gameEngine.GetScore(), _gameEngine.GetScore());
         }
     }
 }
