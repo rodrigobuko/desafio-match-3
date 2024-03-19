@@ -38,8 +38,8 @@ namespace Gazeus.DesafioMatch3.Views
         {
             float offset = toRight ? -_changeModePostionOffeset : _changeModePostionOffeset;
             Vector3 initialPosition = _gameModeContainer.transform.position;
-            Vector3 firstPosition = initialPosition - new Vector3(offset, 0, 0);
-            Vector3 secondPosition = initialPosition + new Vector3(offset, 0, 0);
+            Vector3 firstPosition = initialPosition + new Vector3(offset, 0, 0);
+            Vector3 secondPosition = initialPosition - new Vector3(offset, 0, 0);
             Vector3 endPostion = initialPosition;
 
             Sequence changeModeSequence = DOTween.Sequence();

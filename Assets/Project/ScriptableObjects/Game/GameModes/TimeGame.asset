@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acb2e30175fd1416e97f058fb4c0ea15, type: 3}
-  m_Name: ClassicGame
+  m_Name: TimeGame
   m_EditorClassIdentifier: 
-  _gameId: classic
-  _gameModeName: Classic
-  _gameMode: 0
+  _gameId: timeGame
+  _gameModeName: Time Attack
+  _gameMode: 1
   _boardHeight: 10
   _boardWidth: 10
   _tileTypes: 000000000100000002000000030000000400000005000000
-  _gameDescription: In Classic mode, maximize your score within a limited number
-    of plays.
-  _limitOfRounds: 10
-  _limitOfTimeInSeconds: 0
+  _gameDescription: In this mode, aim for the highest score within a time limit.
+    Time pauses during match-3 animations and combos.
+  _limitOfRounds: 0
+  _limitOfTimeInSeconds: 30

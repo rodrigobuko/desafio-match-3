@@ -13,5 +13,6 @@ namespace Gazeus.DesafioMatch3.Models
         public int BoardWidth { get; set; }
         public List<int> TileTypes { get; set; }
         public int LimitOfRounds { get; set; }
+        public int LimitOfTimeInSeconds { get; set; }
     }
 }

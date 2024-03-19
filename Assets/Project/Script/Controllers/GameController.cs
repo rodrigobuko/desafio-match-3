@@ -31,6 +31,7 @@ namespace Gazeus.DesafioMatch3.Controllers
         private int _selectedX = -1;
         private int _selectedY = -1;
         private int _roundsPlayed = 0;
+        private float _secondsPassed = 0;
 
         private void Awake()
         {
@@ -42,6 +43,13 @@ namespace Gazeus.DesafioMatch3.Controllers
         {
             Board board = _gameEngine.StartGame();
             _boardView.CreateBoard(board.GetBoardTiles());
+        }
+
+        private void Update() {
+            if(!_isAnimating)
+            {
+                UpdateGameTime();
+            }
         }
 
         private void InitializeGame()
@@ -127,6 +135,18 @@ namespace Gazeus.DesafioMatch3.Controllers
             }
         }
 
+        private void UpdateGameTime(){
+            if(_currentGame.GameMode == GameModes.TimeGame)
+            {
+                _secondsPassed += Time.deltaTime;
+                _gameModeHudView.UpdateGameTime(_secondsPassed);
+                if(CheckEndGameCondition())
+                {
+                    GameOver();
+                }
+            }
+        }
+
         private void EndRound(){
             _comboView.EndCombo();
             _roundsPlayed++;
@@ -143,6 +163,8 @@ namespace Gazeus.DesafioMatch3.Controllers
             {
                 case GameModes.ClassicGame:
                     return _roundsPlayed >= _currentGame.LimitOfRounds;
+                case GameModes.TimeGame:
+                    return _secondsPassed >= _currentGame.LimitOfTimeInSeconds;
                 default:
                     return false;
             }
@@ -150,12 +172,19 @@ namespace Gazeus.DesafioMatch3.Controllers
 
         private void GameOver()
         {
+            if (_selectedX > -1 && _selectedY > -1)
+            {
+                _boardView.StopAnimateTile(_selectedX, _selectedY);
+            }
+            _isAnimating = true;
+
             int highScore = _persistenceEngine.LoadPlayerHighScoreForGame(_currentGame);
             int score = _gameEngine.GetScore();
             if(score > highScore){
                 highScore = score;
                 _persistenceEngine.SavePlayerHighScoreForGame(highScore, _currentGame);
             }
+            
             _gameOverView.ShowGameOver(score, highScore);
         }
 
@@ -166,11 +195,14 @@ namespace Gazeus.DesafioMatch3.Controllers
             _boardView.PopulateBoard(board.GetBoardTiles());
 
             _roundsPlayed = 0;
+            _secondsPassed = 0;
             _gameModeHudView.UpdateGamePlays(_roundsPlayed);
+            _gameModeHudView.UpdateGameTime(_secondsPassed);
 
             _scoreView.UpdateScoreWithoutAnimation(_gameEngine.GetScore());
 
             _gameOverView.DisableGameOver();
+            _isAnimating = false;
         }
 
         private void OnDestroy()

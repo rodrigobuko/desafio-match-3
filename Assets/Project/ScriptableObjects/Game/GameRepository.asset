@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: GameRepository
   m_EditorClassIdentifier: 
   _gamesRules:
+  - {fileID: 11400000, guid: c1a203cc3d1d34736b861ec056291c67, type: 2}
+  - {fileID: 11400000, guid: 460f963d95fbc410b9a46d775aa0a1d4, type: 2}
   - {fileID: 11400000, guid: 70d89890a5d794fdd8f2d2b390f80cee, type: 2}
+  - {fileID: 11400000, guid: f3e0e92fce2d8427aa5d755b31a8b5d3, type: 2}
   - {fileID: 11400000, guid: 409c58661c5144a4597456c663603008, type: 2}

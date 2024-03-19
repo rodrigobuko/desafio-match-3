@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acb2e30175fd1416e97f058fb4c0ea15, type: 3}
-  m_Name: ClassicGame
+  m_Name: TimeGameHard
   m_EditorClassIdentifier: 
-  _gameId: classic
-  _gameModeName: Classic
-  _gameMode: 0
-  _boardHeight: 10
-  _boardWidth: 10
-  _tileTypes: 000000000100000002000000030000000400000005000000
-  _gameDescription: In Classic mode, maximize your score within a limited number
-    of plays.
-  _limitOfRounds: 10
-  _limitOfTimeInSeconds: 0
+  _gameId: timeGameHard
+  _gameModeName: Time Attack Hard
+  _gameMode: 1
+  _boardHeight: 12
+  _boardWidth: 12
+  _tileTypes: 00000000010000000200000003000000040000000500000006000000
+  _gameDescription: Same mode as Time Attack. But HARDER! More tiles and more colors!
+  _limitOfRounds: 0
+  _limitOfTimeInSeconds: 60

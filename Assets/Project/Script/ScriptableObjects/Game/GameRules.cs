@@ -29,6 +29,8 @@ namespace Gazeus.DesafioMatch3.ScriptableObjects
         [Header("Game Mode Particularities")]
         [SerializeField] private int _limitOfRounds;
         public int LimitOfRounds => _limitOfRounds;
+        [SerializeField] private int _limitOfTimeInSeconds;
+        public int LimitOfTimeInSeconds => _limitOfTimeInSeconds;
 
         public Game GetGameFromRules()
         {
@@ -40,7 +42,8 @@ namespace Gazeus.DesafioMatch3.ScriptableObjects
                 BoardWidth = _boardWidth,
                 BoardHeight = _boardHeight,
                 TileTypes = _tileTypes,
-                LimitOfRounds = _limitOfRounds
+                LimitOfRounds = _limitOfRounds,
+                LimitOfTimeInSeconds = _limitOfTimeInSeconds
             };
         }
     }
