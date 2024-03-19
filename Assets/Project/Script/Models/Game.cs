@@ -6,6 +6,7 @@ namespace Gazeus.DesafioMatch3.Models
 {
     public class Game
     {
+        public string Name { get; set; }
         public GameModes GameMode { get; set; }
         public int BoardHeight { get; set; }
         public int BoardWidth { get; set; }

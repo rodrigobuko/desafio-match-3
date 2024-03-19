@@ -2495,7 +2495,7 @@ MonoBehaviour:
   _comboView: {fileID: 1580585568}
   _gameModeHudView: {fileID: 341517017}
   _gameOverView: {fileID: 1458595611}
-  _gameRules: {fileID: 11400000, guid: 70d89890a5d794fdd8f2d2b390f80cee, type: 2}
+  _playerCurrentRules: {fileID: 11400000, guid: eee8f42c5614a4dc2a8743263f54b103, type: 2}
   _sceneRepository: {fileID: 11400000, guid: 872e4fea22b014053b98d3edafaeebbd, type: 2}
 --- !u!4 &1361904665
 Transform:

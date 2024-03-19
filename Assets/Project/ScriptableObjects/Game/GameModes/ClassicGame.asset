@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb2e30175fd1416e97f058fb4c0ea15, type: 3}
   m_Name: ClassicGame
   m_EditorClassIdentifier: 
+  _gameModeName: Classic Game
   _gameMode: 0
   _boardHeight: 10
   _boardWidth: 10
   _tileTypes: 000000000100000002000000030000000400000005000000
+  _gameDescription: In Classic mode, maximize your score within a limited number
+    of plays.
   _limitOfRounds: 10

@@ -14,12 +14,10 @@ namespace Gazeus.DesafioMatch3.Views
         private int _x;
         private int _y;
 
-        #region Unity
         private void Awake()
         {
             _button.onClick.AddListener(OnTileClick);
         }
-        #endregion
 
         public Tween AnimatedSetTile(TileView tile, float duration)
         {

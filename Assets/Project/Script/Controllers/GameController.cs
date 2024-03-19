@@ -19,9 +19,10 @@ namespace Gazeus.DesafioMatch3.Controllers
         [SerializeField] private GameOverView _gameOverView;
 
         [Header("Game")]
-        [SerializeField] private GameRules _gameRules;
+        [SerializeField] private CurrentGameRules _playerCurrentRules;
         [SerializeField] private SceneRepository _sceneRepository;
 
+        private GameRules _gameRules;
         private GameService _gameEngine;
         private SceneService _sceneEngine;
         private Game _currentGame;
@@ -30,20 +31,10 @@ namespace Gazeus.DesafioMatch3.Controllers
         private int _selectedY = -1;
         private int _roundsPlayed = 0;
 
-        #region Unity
         private void Awake()
         {
-            _currentGame = _gameRules.GetGameFromRules();
-            _gameEngine = new GameService(new BoardIterator(), _currentGame);
-            _sceneEngine = new SceneService(_sceneRepository.GetGameScenes());
-            _gameModeHudView.SetUpGameHud(_currentGame);
-            _gameOverView.SetUpGameOver(RestartGame, () => _sceneEngine.LoadMainMenuScene());
-            _boardView.TileClicked += OnTileClick;
-        }
-
-        private void OnDestroy()
-        {
-            _boardView.TileClicked -= OnTileClick;
+            InitializeGame();
+            InitializeViews();
         }
 
         private void Start()
@@ -51,7 +42,21 @@ namespace Gazeus.DesafioMatch3.Controllers
             Board board = _gameEngine.StartGame();
             _boardView.CreateBoard(board.GetBoardTiles());
         }
-        #endregion
+
+        private void InitializeGame()
+        {
+            _gameRules = _playerCurrentRules.Rules;
+            _currentGame = _gameRules.GetGameFromRules();
+            _gameEngine = new GameService(new BoardIterator(), _currentGame);
+            _sceneEngine = new SceneService(_sceneRepository.GetGameScenes());
+        }
+
+        private void InitializeViews()
+        {
+            _gameModeHudView.SetUpGameHud(_currentGame);
+            _gameOverView.SetUpGameOver(RestartGame, () => _sceneEngine.LoadMainMenuScene());
+            _boardView.TileClicked += OnTileClick;
+        }
 
         private void AnimateBoard(GameSequence gameSequence, int index, Action onComplete)
         {
@@ -158,6 +163,11 @@ namespace Gazeus.DesafioMatch3.Controllers
             _scoreView.UpdateScoreWithoutAnimation(_gameEngine.GetScore());
 
             _gameOverView.DisableGameOver();
+        }
+
+        private void OnDestroy()
+        {
+            _boardView.TileClicked -= OnTileClick;
         }
     }
 }
