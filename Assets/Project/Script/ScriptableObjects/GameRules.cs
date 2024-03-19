@@ -8,6 +8,8 @@ namespace Gazeus.DesafioMatch3.ScriptableObjects
     [CreateAssetMenu(fileName = "GameRules", menuName = "Gameplay/GameRules")]
     public class GameRules : ScriptableObject
     {
+        [SerializeField] private string _gameId;
+        public string GameId => _gameId;
         [SerializeField] private string _gameModeName;
         public string GameModeName => _gameModeName;
         [SerializeField] private GameModes _gameMode;
@@ -32,6 +34,7 @@ namespace Gazeus.DesafioMatch3.ScriptableObjects
         {
             return new Game
             {
+                Id = _gameId,
                 Name = _gameModeName,
                 GameMode = _gameMode,
                 BoardWidth = _boardWidth,

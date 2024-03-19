@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9bdec6943d2345c689c9f07c77dd01d, type: 3}
   m_Name: GameRepository
   m_EditorClassIdentifier: 
-  _games:
+  _gamesRules:
   - {fileID: 11400000, guid: 70d89890a5d794fdd8f2d2b390f80cee, type: 2}
   - {fileID: 11400000, guid: 409c58661c5144a4597456c663603008, type: 2}

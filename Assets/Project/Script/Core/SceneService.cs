@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Gazeus.DesafioMatch3
+namespace Gazeus.DesafioMatch3.Core
 {
     public class SceneService 
     {

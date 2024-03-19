@@ -48,9 +48,7 @@ namespace Gazeus.DesafioMatch3.Views
             }).SetEase(Ease.InOutSine));
             changeModeSequence.Append(_gameModeContainer.transform.DOMove(secondPosition, _animationChangeModeTransitionTime).OnComplete(() => {
                 _gameModeContainer.SetActive(true);
-                _modeName.text = modeName;
-                _modeDescription.text = modeDescription;
-                _highScoreText.text = modeHighcore.ToString();
+                ChangeModeWithoutAnimation(modeName, modeDescription, modeHighcore);
             }).SetEase(Ease.InOutSine));
             changeModeSequence.Append(_gameModeContainer.transform.DOMove(endPostion, _animationChangeModeTransitionTime).SetEase(Ease.InOutSine));
 
@@ -66,6 +64,13 @@ namespace Gazeus.DesafioMatch3.Views
         {
             _leftChangeModeButton.gameObject.SetActive(toggleValue);
             _rightChangeModeButton.gameObject.SetActive(toggleValue);
+        }
+
+        public void ChangeModeWithoutAnimation(string modeName, string modeDescription, int modeHighcore = 0)
+        {
+            _modeName.text = modeName;
+            _modeDescription.text = modeDescription;
+            _highScoreText.text = modeHighcore.ToString();
         }
     }
 }

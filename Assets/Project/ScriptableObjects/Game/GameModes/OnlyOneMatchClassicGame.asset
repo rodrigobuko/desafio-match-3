@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb2e30175fd1416e97f058fb4c0ea15, type: 3}
   m_Name: OnlyOneMatchClassicGame
   m_EditorClassIdentifier: 
+  _gameId: onlyOneMatch
   _gameModeName: Only One Match
   _gameMode: 0
   _boardHeight: 10

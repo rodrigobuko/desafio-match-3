@@ -25,6 +25,7 @@ namespace Gazeus.DesafioMatch3.Controllers
         private GameRules _gameRules;
         private GameService _gameEngine;
         private SceneService _sceneEngine;
+        private PersistenceService _persistenceEngine;
         private Game _currentGame;
         private bool _isAnimating;
         private int _selectedX = -1;
@@ -49,6 +50,7 @@ namespace Gazeus.DesafioMatch3.Controllers
             _currentGame = _gameRules.GetGameFromRules();
             _gameEngine = new GameService(new BoardIterator(), _currentGame);
             _sceneEngine = new SceneService(_sceneRepository.GetGameScenes());
+            _persistenceEngine = new PersistenceService();
         }
 
         private void InitializeViews()
@@ -148,7 +150,13 @@ namespace Gazeus.DesafioMatch3.Controllers
 
         private void GameOver()
         {
-            _gameOverView.ShowGameOver(_gameEngine.GetScore(), _gameEngine.GetScore());
+            int highScore = _persistenceEngine.LoadPlayerHighScoreForGame(_currentGame);
+            int score = _gameEngine.GetScore();
+            if(score > highScore){
+                highScore = score;
+                _persistenceEngine.SavePlayerHighScoreForGame(highScore, _currentGame);
+            }
+            _gameOverView.ShowGameOver(score, highScore);
         }
 
         private void RestartGame()
