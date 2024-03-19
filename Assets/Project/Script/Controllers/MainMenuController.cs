@@ -37,21 +37,21 @@ namespace Gazeus.DesafioMatch3.Controllers
         private void MoveModesRight()
         {
             _modesIndex++;
-            _modesIndex = Math.Min(_modesIndex, _gameModes.Count - 1);
-            UpdateMode();
+            _modesIndex = _modesIndex >= _gameModes.Count ? 0 : _modesIndex;
+            UpdateMode(true);
         }
 
         private void MoveModesLeft()
         {
             _modesIndex--;
-            _modesIndex = Math.Max(0, _modesIndex);
-            UpdateMode();
+            _modesIndex = _modesIndex < 0 ? _gameModes.Count - 1 : _modesIndex;
+            UpdateMode(false);
         }
 
-        private void UpdateMode()
+        private void UpdateMode(bool toRight)
         {
             GameRules currentRule = _gameModes[_modesIndex];
-            _menuView.ChangeMode(currentRule.GameModeName, currentRule.GameDescription);
+            _menuView.ChangeModeAnimation(currentRule.GameModeName, currentRule.GameDescription, toRight);
             _currentGameRules.ChangeCurrentRule(currentRule);
         }
     }

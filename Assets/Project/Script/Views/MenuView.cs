@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,10 @@ namespace Gazeus.DesafioMatch3.Views
         [SerializeField] TextMeshProUGUI _modeDescription;
         [SerializeField] TextMeshProUGUI _modeName;
 
+        [Header("Change Mode Anination Parameters")]
+        [SerializeField] float _changeModePostionOffeset;
+        [SerializeField] float _animationChangeModeTransitionTime;
+
         [Header("HighScore")]
         [SerializeField] TextMeshProUGUI _highScoreText;
 
@@ -21,6 +26,7 @@ namespace Gazeus.DesafioMatch3.Views
         [SerializeField] Button _playButton;
         [SerializeField] Button _leftChangeModeButton;
         [SerializeField] Button _rightChangeModeButton;
+
         public void SetUpMenu(Action playAction, Action leftChangeModeAction, Action rightChangeModeAction)
         {
             _playButton.onClick.AddListener(() => playAction.Invoke());
@@ -28,10 +34,38 @@ namespace Gazeus.DesafioMatch3.Views
             _rightChangeModeButton.onClick.AddListener(() => rightChangeModeAction.Invoke());
         }
 
-        public void ChangeMode(string modeName, string modeDescription)
+        public void ChangeModeAnimation(string modeName, string modeDescription, bool toRight, int modeHighcore = 0)
         {
-            _modeName.text = modeName;
-            _modeDescription.text = modeDescription;
+            float offset = toRight ? -_changeModePostionOffeset : _changeModePostionOffeset;
+            Vector3 initialPosition = _gameModeContainer.transform.position;
+            Vector3 firstPosition = initialPosition - new Vector3(offset, 0, 0);
+            Vector3 secondPosition = initialPosition + new Vector3(offset, 0, 0);
+            Vector3 endPostion = initialPosition;
+
+            Sequence changeModeSequence = DOTween.Sequence();
+            changeModeSequence.Append(_gameModeContainer.transform.DOMove(firstPosition, _animationChangeModeTransitionTime).OnComplete(() => {
+                _gameModeContainer.SetActive(false);
+            }).SetEase(Ease.InOutSine));
+            changeModeSequence.Append(_gameModeContainer.transform.DOMove(secondPosition, _animationChangeModeTransitionTime).OnComplete(() => {
+                _gameModeContainer.SetActive(true);
+                _modeName.text = modeName;
+                _modeDescription.text = modeDescription;
+                _highScoreText.text = modeHighcore.ToString();
+            }).SetEase(Ease.InOutSine));
+            changeModeSequence.Append(_gameModeContainer.transform.DOMove(endPostion, _animationChangeModeTransitionTime).SetEase(Ease.InOutSine));
+
+            changeModeSequence.OnComplete(() => {
+                ToggleChangeModeButtons(true);
+            });
+                          
+            ToggleChangeModeButtons(false);
+            changeModeSequence.Play();
+        }
+
+        private void ToggleChangeModeButtons(bool toggleValue)
+        {
+            _leftChangeModeButton.gameObject.SetActive(toggleValue);
+            _rightChangeModeButton.gameObject.SetActive(toggleValue);
         }
     }
 }
