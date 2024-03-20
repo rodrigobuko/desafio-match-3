@@ -44,7 +44,7 @@ namespace Gazeus.DesafioMatch3.Views
             changeModeSequence.Append(_gameModeContainer.transform.DOMove(firstPosition, _animationChangeModeTransitionTime).OnComplete(() => {
                 _gameModeContainer.SetActive(false);
             }).SetEase(Ease.InOutSine));
-            changeModeSequence.Append(_gameModeContainer.transform.DOMove(secondPosition, _animationChangeModeTransitionTime).OnComplete(() => {
+            changeModeSequence.Append(_gameModeContainer.transform.DOMove(secondPosition, 0f).OnComplete(() => {
                 _gameModeContainer.SetActive(true);
                 ChangeModeWithoutAnimation(modeName, modeDescription, modeHighcore);
             }).SetEase(Ease.InOutSine));

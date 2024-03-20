@@ -1,3 +1,4 @@
+using System.Globalization;
 using Gazeus.DesafioMatch3.Models;
 using TMPro;
 using UnityEngine;
@@ -60,7 +61,8 @@ namespace Gazeus.DesafioMatch3.Views
                 _timeText.color = _initialTimeTextColor;
             }else 
             {
-                _timeText.text = timeElapsed.ToString("F2");
+                CultureInfo culture = new CultureInfo("en-US");
+                _timeText.text = timeElapsed.ToString("F2", culture);
                 _timeText.color = Color.red;
             }
             
