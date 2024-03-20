@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Gazeus.DesafioMatch3.Extensions;
 using Gazeus.DesafioMatch3.Models;

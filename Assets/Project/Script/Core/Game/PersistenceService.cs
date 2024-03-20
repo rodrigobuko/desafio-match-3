@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using Gazeus.DesafioMatch3.Models;
-using Gazeus.DesafioMatch3.ScriptableObjects;
 using UnityEngine;
 
 namespace Gazeus.DesafioMatch3.Core

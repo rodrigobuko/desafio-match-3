@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using Gazeus.DesafioMatch3.ScriptableObjects;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Gazeus.DesafioMatch3.Views
 {

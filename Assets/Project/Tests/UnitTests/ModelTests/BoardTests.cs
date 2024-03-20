@@ -1,13 +1,8 @@
 using System.Collections.Generic;
-using System.Drawing;
-using Gazeus.DesafioMatch3.Core;
 using Gazeus.DesafioMatch3.Models;
 using Gazeus.DesafioMatch3.Extensions;
-using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
-using NUnit.Framework.Constraints;
 
 public class BoardTests 
 {

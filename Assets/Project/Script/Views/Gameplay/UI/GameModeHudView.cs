@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Gazeus.DesafioMatch3.Models;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Gazeus.DesafioMatch3.Views
 {

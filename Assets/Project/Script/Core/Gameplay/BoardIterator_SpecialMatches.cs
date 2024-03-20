@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Gazeus.DesafioMatch3.Extensions;
 using Gazeus.DesafioMatch3.Models;
-using log4net;
 using UnityEngine;
 
 namespace Gazeus.DesafioMatch3.Core

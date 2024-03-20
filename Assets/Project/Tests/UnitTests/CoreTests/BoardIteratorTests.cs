@@ -1,12 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using Gazeus.DesafioMatch3.Core;
 using Gazeus.DesafioMatch3.Models;
-using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 public class BoardIteratorTests
 {

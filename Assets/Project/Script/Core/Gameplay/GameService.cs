@@ -1,11 +1,5 @@
-using System;
 using System.Collections.Generic;
-using Codice.Client.BaseCommands.Update.Transformers;
-using Codice.CM.SEIDInfo;
 using Gazeus.DesafioMatch3.Models;
-using Gazeus.DesafioMatch3.ScriptableObjects;
-using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 namespace Gazeus.DesafioMatch3.Core
 {
